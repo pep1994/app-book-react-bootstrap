@@ -6,9 +6,13 @@ import Book4 from '../../img/book4.jpg'
 import '../../css/home/home.css'
 
 
+
+
 class home extends Component {
+    
     render() {
         return (
+            
             <div>
                 <div className="home-content">
                     <div id="home-top" className="carousel slide" data-ride="carousel" data-interval= "4000" >

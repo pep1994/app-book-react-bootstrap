@@ -1,32 +1,78 @@
 import React, { Component } from 'react'
+import LoginService from './loginService'
+
 
 class Login extends Component {
-    constructor (props) {
+    constructor(props) {
         super(props)
         this.state = {
             username: "",
-            password: ""
+            password: "",
+            showSuccess: false,
+            showError: false,
+            errorMessage: "",
+            successMessage: ""
         }
+
+        this.LoginService = new LoginService();
     }
-    changeUsername = (e) => {
+
+    changeText = e => {
+        let nome = e.target.name;
+        let val = e.target.value;
         this.setState({
-            username: e.target.value
+            [nome]: val
         })
     }
-    changePassword = (e) => {
-        this.setState({
-            password: e.target.value
-        })
-    }
+
     onSubmit = e => {
         e.preventDefault()
-        
-        
     }
-    login () {
+
+    login() {
+        this.LoginService.login(this.state.username, this.state.password, this.LoginSuccessOrError)
         console.log(this.state.username, this.state.password);
     }
+
+    LoginSuccessOrError = (dataResult) => {
+
+        if (dataResult.token) {
+            this.setState({
+                showSuccess: true,
+                successMessage: `Login effettuato con successo, il tuo token è: ${dataResult.token}`,
+                showError: false,
+                errorMessage: ""
+            })
+        } else {
+            this.setState({
+                showSuccess: false,
+                successMessagge: '',
+                showError: true,
+                errorMessage: `Login fallito, ${dataResult.error.toLowerCase()}`
+            })
+        }
+    }
+
+   
+    getMessage = () => {
+        if (this.state.showSuccess) {
+            return (
+                <div style={{ color: 'green' }}>
+                    {this.state.successMessage}
+                </div>
+            );
+        } else {
+            return (
+                <div style={{ color: 'red' }}>
+                    {this.state.errorMessage}
+                </div>
+            );
+        }
+    }
+
     render() {
+        var message = this.getMessage();
+
         return (
             <div style={{ marginTop: "100px", minHeight: "70vh" }}>
                 <div className="container">
@@ -39,8 +85,8 @@ class Login extends Component {
                                         name='username'
                                         className="form-control"
                                         placeholder="username"
-                                        value = {this.state.username}
-                                        onChange = {this.changeUsername}
+                                        value={this.state.username}
+                                        onChange={this.changeText}
                                     />
                                 </div>
                                 <div className="form-group">
@@ -49,18 +95,19 @@ class Login extends Component {
                                         name='password'
                                         className="form-control"
                                         placeholder="password"
-                                        value = {this.state.password}
-                                        onChange = {this.changePassword}
+                                        value={this.state.password}
+                                        onChange={this.changeText}
                                     />
                                 </div>
                                 <button
                                     type="submit"
                                     className="btn btn-primary pull-right"
-                                    onClick = {() => this.login()}
+                                    onClick={() => this.login()}
 
                                 >
                                     Invio
 								</button>
+                                {message}
                             </form>
                         </div>
                     </div>

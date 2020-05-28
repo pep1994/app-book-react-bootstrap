@@ -164,6 +164,10 @@ img::-moz-selection {
     }
 }
 
+.logo-image {
+    width:  40px;
+}
+
 header.masthead {
     margin-bottom: 50px;
     background: no-repeat center center;
