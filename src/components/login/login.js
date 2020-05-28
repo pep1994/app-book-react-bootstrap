@@ -26,7 +26,8 @@ class Login extends Component {
     }
 
     onSubmit = e => {
-        e.preventDefault()
+        e.preventDefault()  
+        
     }
 
     login() {
@@ -43,6 +44,7 @@ class Login extends Component {
                 showError: false,
                 errorMessage: ""
             })
+            this.props.history.push('/booklist');
         } else {
             this.setState({
                 showSuccess: false,
