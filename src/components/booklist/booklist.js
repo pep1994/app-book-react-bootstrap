@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
 import '../../css/booklist/booklist.css'
+import Modal from './modal'
 
 class Booklist extends Component {
     constructor(props) {
@@ -11,7 +12,8 @@ class Booklist extends Component {
             },
             visible: {
                 display: 'block'
-            }
+            },
+            showModal: 0
         }
     }
 
@@ -51,6 +53,18 @@ class Booklist extends Component {
             valBook: e.target.value
         })
     }
+
+    hideModal = () => {
+        this.setState({
+            showModal: 0
+        })
+    }
+
+    getModal = value => {
+        this.setState({
+            showModal: value
+        })
+    }
     render() {
         return (
             <div>
@@ -82,14 +96,12 @@ class Booklist extends Component {
 
                             {
                                 this.state.books.items.map((book, index) => {
-                                    console.log('ciao');
-                                    console.log(3);
-
-                                    const poster = `http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`;
-                                    // console.log(book);
                                     
+                                    const poster = `http://books.google.com/books/content?id=${book.id}&printsec=frontcover&img=1&zoom=1&source=gbs_api`;
+                                   
                                     return (
                                         <figure key = {index} className='details-open'>
+                                            <Modal show={this.state.showModal === book.id} onHide={() => this.hideModal(book.id)} title= {book.volumeInfo.title} descr= {book.volumeInfo.description} page={book.volumeInfo.pageCount}/>
                                             <div className="perspective">
                                                 <div className="book">
                                                     <div className="cover">
@@ -99,7 +111,7 @@ class Booklist extends Component {
                                                 </div>
                                             </div>
                                             <div className="buttons">
-                                                <button className = 'btn btn-warning btn-sm' style = {{padding: '5px', borderRadius: '5px'}}>
+                                                <button onClick={()=> this.getModal(book.id)} className = 'btn btn-warning btn-sm' style = {{padding: '5px', borderRadius: '5px'}}>
                                                     DETTAGLI
                                                 </button>
                                                 <a href={book.volumeInfo.infoLink} target = '_blank'>Preview</a>
@@ -121,13 +133,9 @@ class Booklist extends Component {
                                     )
                                 })
 
-                                
-                                
                             }
 
-
                         </div>
-
                     </div>
                 </React.Fragment>
             </div>

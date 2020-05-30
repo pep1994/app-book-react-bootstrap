@@ -6,9 +6,9 @@ class LoginService {
 
         const options = {
             method: "POST",
-            headers: new Headers({
+            headers: {
                 "Content-Type": "application/json"
-            }),
+            },
             body: JSON.stringify({
                 email: email,
                 password: password
@@ -26,18 +26,6 @@ class LoginService {
         }
         ) 
     }
-
-
-    // axios.post('https://reqres.in/api/login', {email:email, password:password}).then(function(result){
-    //     console.log(result.data);
-    //     onSuccess(result.data);
-
-    // }, function (error) {
-    //     console.error(error);
-    //     onError(error.response.data)
-
-    // })
-
 
 }
 
